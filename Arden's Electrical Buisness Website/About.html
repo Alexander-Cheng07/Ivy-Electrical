@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ivy Electrical</title>
+  <style>
+    :root {
+      --yellow: #f0a500; --yellow-dark: #c98a00; --dark: #111111;
+      --top-bar-bg: #1a1a1a; --top-bar-text: #cccccc;
+      --nav-bg: #ffffff; --nav-text: #222222;
+      --body-bg: #f5f5f5; --text: #222222;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: sans-serif; background: #f9f9f9; color: #222; }
+
+    .top-bar { background: var(--top-bar-bg); padding: 9px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--yellow); position: sticky; top: 0; z-index: 999; }
+    .top-bar a { text-decoration: none; color: var(--top-bar-text); font-size: 0.9rem; letter-spacing: 0.03em; }
+    .top-bar a:hover { color: var(--yellow); }
+    .top-bar .socials { display: flex; gap: 16px; align-items: center; }
+    .top-bar .socials a img { width: 20px; height: 20px; display: block; opacity: 0.85; transition: opacity 0.2s; }
+    .top-bar .socials a:hover img { opacity: 1; }
+
+    .main-nav { background: var(--nav-bg); padding: 0 40px; height: 100px; display: flex; align-items: center; justify-content: flex-end; position: sticky; top: 35px; z-index: 998; border-bottom: 3px solid var(--yellow); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+    .logo { position: absolute; left: 30px; text-decoration: none; }
+    .nav-links { list-style: none; display: flex; gap: 28px; }
+    .nav-links a { text-decoration: none; color: var(--nav-text); font-size: 1.05rem; font-weight: 500; position: relative; padding-bottom: 4px; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--yellow); transition: width 0.25s ease; }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+    .trust-bar { background: #1a1a1a; display: flex; justify-content: center; }
+    .trust-bar .trust-item { flex: 1; max-width: 300px; text-align: center; padding: 24px 20px; border-right: 1px solid #333; color: #fff; }
+    .trust-bar .trust-item:last-child { border-right: none; }
+    .trust-bar .trust-item .icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .trust-bar .trust-item h3 { font-size: 1rem; color: var(--yellow); margin-bottom: 4px; }
+    .trust-bar .trust-item p { font-size: 0.85rem; color: #aaa; }
+
+    .about-page { max-width: 860px; margin: 60px auto; padding: 0 20px; }
+    .about-page h1 { font-size: 2.2rem; margin-bottom: 10px; }
+    .about-page .intro { color: #555; font-size: 1.05rem; margin-bottom: 50px; line-height: 1.7; }
+
+    .trust-card { background: #fff; border: 1px solid #ddd; padding: 36px 40px; margin-bottom: 24px; display: flex; align-items: flex-start; gap: 30px; }
+    .trust-card .card-icon { font-size: 2.5rem; min-width: 50px; text-align: center; }
+    .trust-card .card-body h2 { font-size: 1.3rem; margin-bottom: 10px; }
+    .trust-card .card-body p { font-size: 1rem; color: #555; line-height: 1.7; }
+    .license-tag { display: inline-block; background: #f0f0f0; border: 1px solid #ccc; padding: 6px 14px; font-size: 0.9rem; font-weight: bold; margin-top: 12px; letter-spacing: 0.05em; color: #333; }
+
+    .personal-section { display: flex; gap: 40px; align-items: flex-start; background: #fff; border: 1px solid #ddd; padding: 40px; margin-bottom: 40px; }
+    .personal-photo { text-align: center; min-width: 180px; }
+    .personal-photo img { width: 160px; height: 160px; object-fit: cover; border-radius: 50%; background: #e0e0e0; display: block; margin: 0 auto 12px; }
+    .personal-photo .photo-name { font-weight: bold; font-size: 1rem; color: #222; }
+    .personal-photo .photo-title { font-size: 0.85rem; color: #888; margin-top: 4px; }
+    .personal-message { flex: 1; }
+    .personal-quote { font-size: 1.15rem; font-weight: bold; color: #1a1a1a; border-left: 4px solid var(--yellow); padding-left: 16px; margin-bottom: 20px; line-height: 1.5; }
+    .personal-message p { font-size: 1rem; color: #555; line-height: 1.8; }
+
+    .footer { background: #0d0d0d; color: #aaa; padding: 60px 60px 30px; display: flex; flex-direction: column; gap: 40px; }
+    .footer-top { display: flex; gap: 60px; }
+    .footer-col { flex: 1; }
+    .footer-col h4 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #fff; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--yellow); display: inline-block; }
+    .footer-col p, .footer-col a { font-size: 0.92rem; color: #888; text-decoration: none; line-height: 2; display: block; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--yellow); }
+    .footer-bottom { border-top: 1px solid #222; padding-top: 24px; font-size: 0.82rem; color: #555; display: flex; justify-content: space-between; align-items: center; }
+    .footer-bottom span { color: var(--yellow); }
+
+    /* Mobile Menu Toggle */
+    .mobile-menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+    .mobile-menu-toggle span { display: block; width: 25px; height: 3px; background: var(--nav-text); margin: 5px 0; transition: 0.3s; }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      .top-bar { padding: 9px 20px; flex-wrap: wrap; }
+      .top-bar a { font-size: 0.85rem; }
+      .top-bar .socials { gap: 12px; }
+      .top-bar .socials a img { width: 18px; height: 18px; }
+
+      .main-nav { padding: 0 20px; height: 70px; }
+      .logo img { height: 45px !important; }
+      .mobile-menu-toggle { display: block; }
+      .nav-links { position: fixed; top: 105px; left: 0; right: 0; background: var(--nav-bg); flex-direction: column; gap: 0; padding: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+      .nav-links.active { max-height: 300px; border-bottom: 3px solid var(--yellow); }
+      .nav-links li { border-bottom: 1px solid #f0f0f0; }
+      .nav-links a { display: block; padding: 18px 20px; font-size: 1rem; }
+      .nav-links a::after { display: none; }
+
+      .trust-bar { flex-direction: column; }
+      .trust-bar .trust-item { max-width: 100%; border-right: none; border-bottom: 1px solid #333; }
+      .trust-bar .trust-item:last-child { border-bottom: none; }
+
+      .about-page { margin: 40px auto; padding: 0 20px; }
+      .about-page h1 { font-size: 1.8rem; }
+      .about-page .intro { font-size: 1rem; margin-bottom: 30px; }
+
+      .personal-section { flex-direction: column; padding: 30px 20px; align-items: center; text-align: center; }
+      .personal-photo { min-width: auto; margin-bottom: 20px; }
+      .personal-quote { border-left: none; border-top: 4px solid var(--yellow); padding-left: 0; padding-top: 16px; font-size: 1rem; }
+
+      .trust-card { flex-direction: column; padding: 24px 20px; gap: 20px; text-align: center; }
+      .trust-card .card-icon { min-width: auto; font-size: 2rem; }
+      .trust-card .card-body h2 { font-size: 1.2rem; }
+
+      .footer { padding: 40px 20px 20px; }
+      .footer-top { flex-direction: column; gap: 30px; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="tel:9055742033">Call Us &mdash; (905) 574-2033</a>
+    <div class="socials">
+      <a href="https://www.linkedin.com/in/alexander-cheng0" aria-label="LinkedIn" target="_blank"><img src="linkedin.png" alt="LinkedIn" /></a>
+      <a href="https://www.instagram.com/_alex_cheng/" aria-label="Instagram" target="_blank"><img src="instagram.png" alt="Instagram" /></a>
+    </div>
+  </div>
+
+  <nav class="main-nav">
+    <a href="index.html" class="logo"><img src="Name.png" alt="Ivy Electrical" style="height:60px;width:auto;display:block;" /></a>
+    <button class="mobile-menu-toggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="About.html" class="active">About</a></li>
+      <li><a href="Services.html">Services</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="trust-bar">
+    <div class="trust-item">
+      <div class="icon">✔</div>
+      <h3>Licensed &amp; Insured</h3>
+      <p>Fully certified for residential &amp; commercial work</p>
+    </div>
+    <div class="trust-item">
+      <div class="icon">⏱</div>
+      <h3>10 Years Experience</h3>
+      <p>Hundreds of satisfied customers served</p>
+    </div>
+    <div class="trust-item">
+      <div class="icon">★</div>
+      <h3>Satisfaction Guaranteed</h3>
+      <p>We don't leave until the job is done right</p>
+    </div>
+  </div>
+
+  <div class="about-page">
+
+    <h1>About Ivy Electrical</h1>
+    <p class="intro">
+      We are a locally owned and operated electrical contractor serving the Greater Hamilton Area.
+      With 10 years of hands-on experience, we bring skill, professionalism, and reliability
+      to every job. Our goal is simple: do the work right the first time.
+    </p>
+
+    <!-- ARDEN -->
+    <div class="personal-section">
+      <div class="personal-photo">
+        <img src="arden.jpg" alt="Arden Cheng" />
+        <p class="photo-name">Arden Cheng</p>
+        <p class="photo-title">Owner &amp; Master Electrician</p>
+      </div>
+      <div class="personal-message">
+        <p class="personal-quote">"I started this business because I believe good electrical work should be done right, every single time."</p>
+        <p>
+          Hi, I'm Arden. I've spent the last 10 years working on electrical projects
+          across Hamilton and the surrounding area. I started Ivy Electrical
+          because I wanted to build something I'm proud of; a business where the work
+          speaks for itself.
+        </p>
+        <br />
+        <p>
+          When you work with us, you can expect punctual, professional service. We show up on time, do the job right, and make sure you're satisfied before we leave.
+        </p>
+        <br />
+        <p><a href="mailto:arden@ivyelectrical.ca">arden@ivyelectrical.ca</a></p>
+      </div>
+    </div>
+
+    <!-- ALEX -->
+    <div class="personal-section">
+      <div class="personal-photo">
+        <img src="alex.jpg" alt="Alex Cheng" />
+        <p class="photo-name">Alexander Cheng</p>
+        <p class="photo-title">Electrical Apprentice</p>
+      </div>
+      <div class="personal-message">
+        <p class="personal-quote">"Building Greatness Takes Time."</p>
+        <p>
+          Hey, I'm Alex and I've spent the last couple of months 
+          learning how to code to help my brothers dream come true of owning a buisness.
+          But I dont just code. You can see me on the jobsite as Ardens electrical apprentice 
+          where we take pride in our work.
+
+
+        </p>
+        <br />
+        <p><a href="mailto:alex@ivyelectrical.ca">alex@ivyelectrical.ca</a></p>
+      </div>
+    </div>
+
+    <!-- CARD 1 -->
+    <div class="trust-card">
+      <div class="card-icon">✔</div>
+      <div class="card-body">
+        <h2>Licensed</h2>
+        <p>
+          Ivy Electrical is fully licensed for all residential and
+          commercial electrical work in Ontario. You can hire us with complete confidence
+          knowing that every job meets provincial electrical safety standards.<br /><br />
+        </p>
+        <span class="license-tag">License No. LIC-000000</span>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="trust-card">
+      <div class="card-icon">⏱</div>
+      <div class="card-body">
+        <h2>10 Years of Experience</h2>
+        <p>
+          Over the past 10 years we have completed hundreds of electrical projects across
+          Hamilton and the surrounding area. From panel upgrades and new installations to
+          troubleshooting and emergency repairs we've seen it all and handled it all.
+        </p>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="trust-card">
+      <div class="card-icon">★</div>
+      <div class="card-body">
+        <h2>Satisfaction Guaranteed</h2>
+        <p>
+          We stand behind every job we complete. If something isn't right, we come back
+          and make it right. Your satisfaction isn't just a promise,
+          it's how we've built our reputation in this community.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-col">
+        <h4>Ivy Electrical</h4>
+        <p>Licensed electrical contractor serving the Greater Hamilton Area. Residential and commercial work done right, every time.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="About.html">About</a>
+        <a href="Services.html">Services</a>
+        <a href="Contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="tel:9055742033">(905) 574-2033</a>
+        <p>Hamilton, Ontario</p>
+      </div>
+      <div class="footer-col">
+        <h4>Hours</h4>
+        <p>Monday &ndash; Friday</p>
+        <p>7:00 AM &ndash; 6:00 PM</p>
+        <p>&nbsp;</p>
+        <p>24/7 Emergency Service Available</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="year"></span> Ivy Electrical. All rights reserved.</p>
+     
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    mobileToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+
+    // Nav hide/show on scroll
+    let lastScrollY = window.scrollY;
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('.main-nav');
+      const cur = window.scrollY

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thank You | Ivy Electrical</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:    #0f1114;
+      --dark2:   #181c22;
+      --panel:   #1e2229;
+      --border:  #2a2f38;
+      --yellow:  #f5c518;
+      --yellow2: #e0b010;
+      --white:   #f4f5f7;
+      --muted:   #8d95a0;
+      --text:    #c8cdd5;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--dark);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(245,197,24,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,197,24,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -40%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(ellipse, rgba(245,197,24,0.08) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeDown 0.6s ease forwards 0.1s;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+    }
+
+    .logo-bolt {
+      width: 28px;
+      height: 28px;
+      background: var(--yellow);
+      clip-path: polygon(60% 0%, 40% 45%, 70% 45%, 40% 100%, 60% 55%, 30% 55%);
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .logo-text span { color: var(--yellow); }
+
+    .header-tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      max-width: 540px;
+      width: 100%;
+      padding: 3rem 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.35s;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--yellow), var(--yellow2));
+    }
+
+    .card::after {
+      content: '⚡';
+      position: absolute;
+      bottom: -0.5rem;
+      right: 1.5rem;
+      font-size: 8rem;
+      opacity: 0.03;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .check-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(245,197,24,0.12);
+      border: 2px solid var(--yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      opacity: 0;
+      animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards 0.65s;
+    }
+
+    .check-icon svg {
+      width: 26px; height: 26px;
+      stroke: var(--yellow);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .check-path {
+      stroke-dasharray: 36;
+      stroke-dashoffset: 36;
+      animation: drawCheck 0.45s ease forwards 1s;
+    }
+
+    .check-label {
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards 0.75s;
+    }
+
+    .check-label p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 0.2rem;
+    }
+
+    .check-label h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 1.75rem;
+      opacity: 0;
+      animation: fadeIn 0.5s ease forwards 0.9s;
+    }
+
+    .body-text {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.95s;
+    }
+
+    .body-text strong { color: var(--white); font-weight: 600; }
+
+    .info-strip {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2.25rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 1.05s;
+    }
+
+    .info-item {
+      flex: 1;
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      padding: 0.85rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .info-item svg {
+      width: 16px; height: 16px;
+      stroke: var(--yellow);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .info-item span {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 400;
+      line-height: 1.35;
+    }
+
+    .info-item span strong {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 1.15s;
+    }
+
+    .btn-primary {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.5rem;
+      background: var(--yellow);
+      color: var(--dark);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover { background: var(--yellow2); transform: translateY(-1px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.25rem;
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 500;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-secondary:hover { border-color: var(--yellow); color: var(--yellow); }
+
+    .btn-primary svg, .btn-secondary svg {
+      width: 14px; height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      opacity: 0;
+      animation: fadeIn 0.6s ease forwards 1.3s;
+    }
+
+    footer p { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.04em; }
+
+    footer a {
+      font-size: 0.72rem;
+      color: var(--yellow);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      font-weight: 600;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.4); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes drawCheck {
+      to { stroke-dashoffset: 0; }
+    }
+
+    @media (max-width: 480px) {
+      header { padding: 1rem 1.25rem; }
+      .header-tag { display: none; }
+      .card { padding: 2rem 1.5rem 1.75rem; }
+      .info-strip { flex-direction: column; }
+      footer { flex-direction: column; gap: 0.4rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <a href="/" class="logo">
+      <div class="logo-bolt"></div>
+      <div class="logo-text">Ivy <span>Electrical</span></div>
+    </a>
+    <span class="header-tag">Greater Hamilton Toronto Area</span>
+  </header>
+
+  <main>
+    <div class="card">
+
+      <div class="check-row">
+        <div class="check-icon">
+          <svg viewBox="0 0 24 24">
+            <polyline class="check-path" points="5,12 10,17 19,7"/>
+          </svg>
+        </div>
+        <div class="check-label">
+          <p>Message sent</p>
+          <h2>Thank You</h2>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <p class="body-text">
+        We've received your request and will be in touch <strong>shortly</strong>.
+        Whether it's a quick fix or a full installation, we're ready to get the job done right.
+      </p>
+
+      <div class="info-strip">
+        <div class="info-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span><strong>Quick Response</strong>Mon–Fri, 7 AM–6 PM</span>
+        </div>
+        <div class="info-item">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 5.07 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L9.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span><strong>Need it now?</strong>(905) 574-2033</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a href="/" class="btn-primary">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Back to Home
+        </a>
+        <a href="tel:9055742033" class="btn-secondary">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 5.07 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L9.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call Us
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>© Ivy Electrical. Licensed Ontario.</p>
+    <a href="tel:9055742033">(905) 574-2033</a>
+  </footer>
+
+</div>
+</body>
+</html>
